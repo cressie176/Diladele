@@ -7,7 +7,13 @@ A Diladele (previously known as qlproxy) content filtering proxy pre-configured 
 2. A [Diladele](http://diladele.com) license
 3. A set of SSL Certificates [see here](http://docs.diladele.com/administrator_guide_4_0/system_configuration/https_filtering/generate_certificates.html)
 
-## Quick Start
+## Running
+```bash
+# Start the diladele container interactively
+docker run --name diladele -i -t -p 80:80 -p 3128:3128 -v $(pwd)/volumes/qlproxy:/mnt/qlproxy  -e TIME_ZONE='Europe/London' cressie176/diladele:4.0-beta
+```
+
+## Building
 ```bash
 git clone https://github.com/cressie176/Diladele
 cd Diladele
@@ -24,12 +30,6 @@ docker run --name diladele --restart=always -d -p 80:80 -p 3128:3128 -v $(pwd)/v
 # Build the docker image
 docker build -t cressie176/diladele:4.0-beta .
 ```
-
-```bash
-# Start the diladele container interactively
-docker run --name diladele -i -t -p 80:80 -p 3128:3128 -v $(pwd)/volumes/qlproxy:/mnt/qlproxy  -e TIME_ZONE='Europe/London' cressie176/diladele:4.0-beta
-```
-
 ## Enter a running container
 ```bash
 docker exec -i -t diladele /bin/bash
