@@ -30,12 +30,13 @@ docker build -t cressie176/diladele:4.0-beta .
 docker run --name diladele -i -t -p 80:80 -p 3128:3128 -v $(pwd)/volumes/qlproxy:/mnt/qlproxy  -e TIME_ZONE='Europe/London' cressie176/diladele:4.0-beta
 
 # Enter a running container
+```bash
 docker exec -i -t diladele /bin/bash
+```
 
-
-## Backing Up
-docker exec -i -t diladele sqlite3 /opt/qlproxy/var/db/qlproxy.sqlite ".backup /mnt/qlproxy/backup/qlproxy.sqlite.bak"
-docker exec -i -t diladele sqlite3 /opt/qlproxy/var/db/qlproxy.sqlite ".backup /mnt/qlproxy/backup/qlproxy.sqlite.bak"
+## Backing up the qlproxy.sqlite database
+```
+docker exec -i -t diladele /etc/cron.hourly/qlproxy_backup
 ```
 
 ### TODO
