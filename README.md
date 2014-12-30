@@ -1,6 +1,6 @@
 # Dockerfile for Diladele Web Safety
 
-A Diladele (previously known as qlproxy) content filtering proxy pre-configured for HTTPS and using dnsmasq to force google safe search
+A Diladele (previously known as qlproxy) content filtering proxy with support for HTTPS
 
 ## Pre-requisits
 1. [Docker](http://docker.io)

@@ -23,16 +23,8 @@ RUN apt-get install -y python-setuptools python-ldap apache2 libapache2-mod-wsgi
 # Install Squid HTTPS Filtering pre-requisits
 RUN apt-get install -y devscripts build-essential fakeroot libssl-dev ssl-cert squid-langpack squidclient=3.3.8-1ubuntu6.2
 
-# Install dnsmasq
-RUN apt-get install -y dnsmasq
-
 # Install Django
 RUN easy_install django==1.6.8
-
-# Configure dnsmasq
-ADD container_files/etc/dnsmasq.conf /etc/
-ADD container_files/etc/forcesafesearch /etc/
-RUN mkdir -p /var/log/dnsmasq
 
 # Build, Install & Configure Squid with HTTPS Filtering
 RUN cd /usr/src && apt-get source -y squid3=3.3.8-1ubuntu6.2
