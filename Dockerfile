@@ -18,7 +18,7 @@ RUN apt-get install -y wget curl man dnsutils bc
 RUN apt-get install -y supervisor
 
 # Install Diladele pre-requisits
-RUN apt-get install -y python-setuptools python-ldap apache2 libapache2-mod-wsgi
+RUN apt-get install -y python-setuptools python-ldap apache2 libapache2-mod-wsgi sqlite
 
 # Install Squid HTTPS Filtering pre-requisits
 RUN apt-get install -y devscripts build-essential fakeroot libssl-dev ssl-cert squid-langpack squidclient=3.3.8-1ubuntu6.2
@@ -69,5 +69,3 @@ RUN chmod +x /etc/cron.hourly/*
 ADD container_files/etc/supervisor/conf.d/* /etc/supervisor/conf.d/
 CMD /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
 
-# Fixes
-RUN apt-get install -y sqlite
