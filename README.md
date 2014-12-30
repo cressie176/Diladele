@@ -28,6 +28,7 @@ docker build -t cressie176/diladele:4.0-beta .
 ```bash
 # Start the diladele container interactively
 docker run --name diladele -i -t -p 80:80 -p 3128:3128 -v $(pwd)/volumes/qlproxy:/mnt/qlproxy  -e TIME_ZONE='Europe/London' cressie176/diladele:4.0-beta
+```
 
 # Enter a running container
 ```bash
