@@ -35,7 +35,7 @@ docker exec -i -t diladele /bin/bash
 ```
 
 ## Manually triggering a backup
-```
+```base
 docker exec -i -t diladele /etc/cron.hourly/qlproxy_backup
 ```
 
