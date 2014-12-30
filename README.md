@@ -34,7 +34,7 @@ docker run --name diladele -i -t -p 80:80 -p 3128:3128 -v $(pwd)/volumes/qlproxy
 docker exec -i -t diladele /bin/bash
 ```
 
-## Backing up the qlproxy.sqlite database
+## Manually triggering a backup
 ```
 docker exec -i -t diladele /etc/cron.hourly/qlproxy_backup
 ```
