@@ -12,7 +12,9 @@ live=/opt/qlproxy/var/db/$database
 backup=/opt/qlproxy/backup/$database
 
 # Supervisor doesn't kill child processes so qlproxyd may still be running
+set +e
 pkill qlproxyd
+set -e
 
 if [ -e $backup ] && [ $live -ot $backup ]; then
     echo "Restoring $backup"
