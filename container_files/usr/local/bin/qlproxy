@@ -15,6 +15,7 @@ if [ -e $backup ] && [ $live -ot $backup ]; then
     echo "Restoring $backup"
     mv $live $live.bak
     cp $backup $live
+    chown qlproxy:qlproxy $live
 fi
 
 /opt/qlproxy/bin/qlproxyd --nodaemon &
