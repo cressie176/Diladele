@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+database=qlproxy.sqlite
+live=/opt/qlproxy/var/db/$database
+backup=/opt/qlproxy/backup/$database
+timestamp=$(date +%F_%T)
+
+if [[ ! -e $backup ]] || [[ ! "$(sqlite3 $live .dump | md5sum)" == "$(sqlite3 $backup .dump | md5sum)" ]]; then
+    echo "Backing up $live"
+    sqlite3 $live ".backup $backup.$timestamp"
+    rm -f $backup
+    ln -s $backup.$timestamp $backup
+else
+    echo "No changes since last backup"
+fi

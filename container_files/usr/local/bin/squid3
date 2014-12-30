@@ -1,0 +1,53 @@
+#!/bin/bash
+
+set -e
+hz=$(getconf CLK_TCK)
+max_attempts=10
+attempt=1
+
+until [[ "$attempt" -gt "$max_attempts" ]]
+do
+    echo "Checking for qlproxyd $attempt of $max_attempts"
+
+    set +e
+    pid=$(pidof qlproxyd)
+    set -e
+
+    if [[ "$pid" -ne "" ]]; then
+
+        uptime=$(cat /proc/uptime | awk '{printf "%d", $1}')
+        start_time_in_ticks=$(cat /proc/$pid/stat | awk '{print $22}')
+        start_time_in_seconds=$(echo "scale=0;$start_time_in_ticks / $hz" | bc)
+        elapsed_time_in_seconds=$(echo "$uptime - $start_time_in_seconds" | bc)
+
+        if [[ "$elapsed_time_in_seconds" -lt "5" ]]; then
+            echo "qlproxyd is running, but is it stable?"
+        else
+            break
+        fi
+    else
+        echo "qlproxyd is not running"
+    fi
+
+    set +e
+    ((attempt++))
+    set -e
+
+    sleep 1
+done
+
+if [[ "$attempt" -lt "$max_attempts" ]]; then
+    set -e
+
+    echo "Initialising squid"
+    /usr/sbin/squid3 -z -YC -f /etc/squid3/squid.conf
+
+    echo "Starting squid"
+    umask 027
+    ulimit -n 65535
+    /usr/sbin/squid3 -N -YC -f /etc/squid3/squid.conf
+else
+    echo "qlproxyd did not start. Cannot start squid"
+    exit 1
+fi
+

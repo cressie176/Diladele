@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e -m
+sed -i "s|TIME_ZONE = '.*'|TIME_ZONE='$TIME_ZONE'|" /opt/qlproxy/var/console/console/settings.py
+
+cp /mnt/qlproxy/private/license.key /opt/qlproxy/etc/license.key
+cp /mnt/qlproxy/private/myca.pem /opt/qlproxy/etc/myca.pem
+cp /mnt/qlproxy/private/myca.der /opt/qlproxy/etc/myca.der
+
+database=qlproxy.sqlite
+live=/opt/qlproxy/var/db/$database
+backup=/opt/qlproxy/backup/$database
+
+if [ -e $backup ] && [ $live -ot $backup ]; then
+    echo "Restoring $backup"
+    mv $live $live.bak
+    cp $backup $live
+fi
+
+/opt/qlproxy/bin/qlproxyd --nodaemon &
+echo $! > /opt/qlproxy/var/run/qlproxyd.pid
+fg
