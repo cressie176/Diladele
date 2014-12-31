@@ -39,3 +39,4 @@ docker exec -i -t diladele /etc/cron.hourly/qlproxy_backup
 1. logrotate
 2. syslog
 3. clamav
+4. authentication
